@@ -453,8 +453,10 @@ function InitPostCommentsModule
 function GetResponseForGetChanges
 {        
     # It's simpler to deserialize json than to create an actual object that mocks the GetChangesAsync response 
-    $json = Get-Content "$PSScriptRoot\data\GetChangesResponse.json" 
-    return $json | ConvertFrom-Json
+    $json = Get-Content "$PSScriptRoot\data\GetChangesResponse.json"
+    throw "END";
+    #return "tmp"; 
+    #return $json | ConvertFrom-Json
 }
 
 #
