@@ -544,18 +544,28 @@ function GetResponseForGetChanges
     $json = Get-Content "$PSScriptRoot\data\GetChangesResponse.json" | Out-String        
     $responseObj = ConvertFrom-Json $json -ErrorAction Continue -ErrorVariable a
 
-    $b = $a[0]
-    throw "From file $b"
+    if ($a)
+    {
+        $b = $a[0]
+        throw "From file $b"
+    }
+
+    return $responseObj
 }
 
 function GetResponseForGetChangesTmp
 {        
     # It's simpler to deserialize json than to create an actual object that mocks the GetChangesAsync response 
-    $json = resp
+    $json = $resp
     $responseObj = ConvertFrom-Json $resp -ErrorAction Continue -ErrorVariable a
 
-    $b = $a[0]
-    throw "From test $b"
+    if ($a)
+    {
+        $b = $a[0]
+        throw "From test $b"
+    }
+
+    return $responseObj
 }
 
 
