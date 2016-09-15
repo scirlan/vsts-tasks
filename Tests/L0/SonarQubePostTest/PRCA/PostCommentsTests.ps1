@@ -597,8 +597,11 @@ Unregister-Mock GetModifiedFilesInPR
 #
 $mockDiscussionClient = InitPostCommentsModule $false
 Register-Mock GetModifiedFilesInPR { @("some/path1/file.cs", "path/not/in/changes/response") }
-Register-Mock GetCodeFlowLatestIterationId 
-Register-Mock GetCodeFlowChanges {(GetResponseForGetChanges)} 
+Register-Mock GetCodeFlowLatestIterationId
+Write-Host "0" 
+$changes = GetResponseForGetChanges
+Write-Host "1 $changes"
+Register-Mock GetCodeFlowChanges { $changes } 
 Register-Mock Write-Warning
 
 # Iteration 1: 
