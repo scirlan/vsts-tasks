@@ -599,7 +599,7 @@ $mockDiscussionClient = InitPostCommentsModule $false
 Register-Mock GetModifiedFilesInPR { @("some/path1/file.cs", "path/not/in/changes/response") }
 Register-Mock GetCodeFlowLatestIterationId
 #Write-Verbose "0" 
-#$changes = GetResponseForGetChanges
+$changes = GetResponseForGetChanges
 #Write-Verbose "1 $changes"
 #Register-Mock GetCodeFlowChanges { $changes } 
 Register-Mock Write-Warning
