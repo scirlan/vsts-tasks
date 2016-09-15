@@ -289,6 +289,94 @@ namespace PsWorkarounds
 
 "@
 
+
+$resp = 
+@"
+{
+    "NextTop":  null,
+    "NextSkip":  null,
+    "ChangeEntries":  [
+                          {
+                              "IterationId":  3,
+                              "ChangeId":  1,
+                              "Base":  {
+                                           "Path":  "/ConsoleApplication1/Program.cs",
+                                           "SHA1Hash":  "3ceb4e8c496c9b787dbf4baf3ed1878d3009b02a",
+                                           "Links":  {
+                                                         "Links":  {
+                                                                       "content":  "Microsoft.VisualStudio.Services.WebApi.ReferenceLink"
+                                                                   }
+                                                     }
+                                       },
+                              "Modified":  {
+                                               "Path":  "/ConsoleApplication1/Program.cs",
+                                               "SHA1Hash":  "ca7309630ef06c33f6fddb7a5be38bf077b5adf4",
+                                               "Links":  {
+                                                             "Links":  {
+                                                                           "content":  "Microsoft.VisualStudio.Services.WebApi.ReferenceLink"
+                                                                       }
+                                                         }
+                                           },
+                              "Type":  2,
+                              "ExtendedChangeType":  null,
+                              "ChangeTrackingId":  1,
+                              "TotalChangesCount":  0
+                          },
+                          {
+                              "IterationId":  3,
+                              "ChangeId":  2,
+                              "Base":  {
+                                           "Path":  "some/path1/file.cs",
+                                           "SHA1Hash":  "9de3a40b8a395f35cdd8a1fe643224a9ddc61b73",
+                                           "Links":  {
+                                                         "Links":  {
+                                                                       "content":  "Microsoft.VisualStudio.Services.WebApi.ReferenceLink"
+                                                                   }
+                                                     }
+                                       },
+                              "Modified":  {
+                                               "Path":  "some/path1/file.cs",
+                                               "SHA1Hash":  "7e4ce4b473fff0da91087ae80ae3f6c53900b56a",
+                                               "Links":  {
+                                                             "Links":  {
+                                                                           "content":  "Microsoft.VisualStudio.Services.WebApi.ReferenceLink"
+                                                                       }
+                                                         }
+                                           },
+                              "Type":  2,
+                              "ExtendedChangeType":  null,
+                              "ChangeTrackingId":  2,
+                              "TotalChangesCount":  0
+                          },
+                          {
+                              "IterationId":  3,
+                              "ChangeId":  3,
+                              "Base":  {
+                                           "Path":  "/Extractor/Program.cs",
+                                           "SHA1Hash":  "d73b987bf3c1a393e613487d6c3b9acac21ec358",
+                                           "Links":  {
+                                                         "Links":  {
+                                                                       "content":  "Microsoft.VisualStudio.Services.WebApi.ReferenceLink"
+                                                                   }
+                                                     }
+                                       },
+                              "Modified":  {
+                                               "Path":  "/Extractor/Program.cs",
+                                               "SHA1Hash":  "f03041fe78fd1e52a9448a235536426e4e3b11b2",
+                                               "Links":  {
+                                                             "Links":  {
+                                                                           "content":  "Microsoft.VisualStudio.Services.WebApi.ReferenceLink"
+                                                                       }
+                                                         }
+                                           },
+                              "Type":  2,
+                              "ExtendedChangeType":  null,
+                              "ChangeTrackingId":  3,
+                              "TotalChangesCount":  0
+                          }
+                      ]
+}
+"@
 Add-Type -TypeDefinition $source -Language CSharp
 
 
@@ -453,11 +541,23 @@ function InitPostCommentsModule
 function GetResponseForGetChanges
 {        
     # It's simpler to deserialize json than to create an actual object that mocks the GetChangesAsync response 
-    $json = Get-Content "$PSScriptRoot\data\GetChangesResponse.json"
-    throw "END";
-    #return "tmp"; 
-    #return $json | ConvertFrom-Json
+    $json = Get-Content "$PSScriptRoot\data\GetChangesResponse.json" | Out-String        
+    $responseObj = ConvertFrom-Json $json -ErrorAction Continue -ErrorVariable a
+
+    $b = $a[0]
+    throw "From file $b"
 }
+
+function GetResponseForGetChangesTmp
+{        
+    # It's simpler to deserialize json than to create an actual object that mocks the GetChangesAsync response 
+    $json = resp
+    $responseObj = ConvertFrom-Json $resp -ErrorAction Continue -ErrorVariable a
+
+    $b = $a[0]
+    throw "From test $b"
+}
+
 
 #
 # Test - E2E test that goes through several iterations of posting messages.   
@@ -600,7 +700,8 @@ Unregister-Mock GetModifiedFilesInPR
 $mockDiscussionClient = InitPostCommentsModule $false
 Register-Mock GetModifiedFilesInPR { @("some/path1/file.cs", "path/not/in/changes/response") }
 Register-Mock GetCodeFlowLatestIterationId
-#Write-Verbose "0" 
+#Write-Verbose "0"
+GetResponseForGetChangesTmp 
 $changes = GetResponseForGetChanges
 #Write-Verbose "1 $changes"
 #Register-Mock GetCodeFlowChanges { $changes } 
