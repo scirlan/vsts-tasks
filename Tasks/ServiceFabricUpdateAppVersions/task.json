@@ -13,7 +13,7 @@
     "version": {
         "Major": 1,
         "Minor": 1,
-        "Patch": 5
+        "Patch": 6
     },
     "minimumAgentVersion": "1.95.0",
     "instanceNameFormat": "Update Service Fabric App Versions",
@@ -132,6 +132,7 @@
         "FileRemoved": "The file '{0}' has been removed.",
         "FileAdded": "The file '{0}' has been added.",
         "FileChanged": "The file '{0}' has changed.",
-        "NoChanges": "Found no changes."
+        "NoChanges": "Found no changes.",
+        "PdbWarning": "This package contains '*.pdb' files, which change even if the 'deterministic' compiler flag is used and will be ignored for the sake of this task. Exclude these files from your package to avoid an error at deploy-time similar to: 'The content in the package has changed, but the version number is the same'."
     }
 }

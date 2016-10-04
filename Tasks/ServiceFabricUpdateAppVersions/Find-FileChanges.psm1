@@ -33,6 +33,11 @@ function Find-FileChanges
     try {
         $LogIndent += "".PadLeft(2)
 
+        if (Find-VstsFiles -LiteralDirectory $NewPackageRoot -LegacyPattern "**\*.pdb" -Force)
+        {
+            Write-Warning (Get-VstsLocString -Key PdbWarning)
+        }
+
         $newFilesQueue = [System.Collections.Queue] @(Get-PackageFiles $NewPackageRoot)
         $oldFilesQueue = [System.Collections.Queue] @(Get-PackageFiles $OldPackageRoot)
 

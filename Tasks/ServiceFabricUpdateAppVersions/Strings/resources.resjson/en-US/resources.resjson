@@ -49,5 +49,6 @@
   "loc.messages.FileRemoved": "The file '{0}' has been removed.",
   "loc.messages.FileAdded": "The file '{0}' has been added.",
   "loc.messages.FileChanged": "The file '{0}' has changed.",
-  "loc.messages.NoChanges": "Found no changes."
+  "loc.messages.NoChanges": "Found no changes.",
+  "loc.messages.PdbWarning": "This package contains '*.pdb' files, which change even if the 'deterministic' compiler flag is used and will be ignored for the sake of this task. Exclude these files from your package to avoid an error at deploy-time similar to: 'The content in the package has changed, but the version number is the same'."
 }
